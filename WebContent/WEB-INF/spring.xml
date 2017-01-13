@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/task 
+        http://www.springframework.org/schema/task/spring-task-4.1.xsd">
+
+	 <context:component-scan base-package="com.tim.spring0200" />
+	 
+	 
+	 <import resource="classpath:connectionDB.xml"/>
+	 
+     <bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="5" />
+		<property name="maxPoolSize" value="10" />
+		<property name="queueCapacity" value="25" />
+	</bean>
+
+	<bean id="taskExecutorExample" class="com.tim.spring0200.task.TaskExecutorExample">
+		<constructor-arg ref="taskExecutor" />
+	</bean>
+	
+	<bean id="taskExecutorExample2" class="com.tim.spring0200.task.TaskExecutorExample2">
+	</bean>
+	
+	<bean id="taskSchedulerExample1" class="com.tim.spring0200.task.TaskSchedulerExample1">
+		<property name="taskScheduler" ref="taskScheduler"></property>
+		<property name="weatherService" ref="weatherService"></property>
+	</bean>
+
+		<task:scheduler id="taskScheduler" pool-size="100" />
+
+    	<!-- <task:scheduled-tasks scheduler="taskScheduler">
+        	每半分钟触发任务
+        	<task:scheduled ref="taskExecutorExample2" method="printMessages" cron="10 * * * * ?"/>
+        </task:scheduled-tasks> -->
+        
+        
+    <bean id="weatherService" class="com.tim.spring0200.service.impl.WeatherServiceImpl">
+    	<property name="commonDAO" ref="commonDAO"></property>
+    </bean> 
+    
+    <bean id="photoService" class="com.tim.spring0200.service.impl.PhotoServiceImpl">
+    	<property name="commonDAO" ref="commonDAO"></property>
+    </bean>
+</beans>

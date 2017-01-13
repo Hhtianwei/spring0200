@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+<context:component-scan base-package="com.tim.spring0200" />
+    <mvc:resources mapping="/images/**" location="/images/"/>
+    
+        <mvc:resources mapping="/video/**" location="/video/"/>
+        
+        <mvc:resources mapping="/bootstrap/**" location="/bootstrap/"/>
+        <mvc:resources mapping="/upload/**" location="/upload/"/>
+        <mvc:resources mapping="/css/**" location="/css/"/>
+     <mvc:resources mapping="/js/**" location="/js/"/>
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+	    <property name="prefix" value="/WEB-INF/jsp/"/>
+	    <property name="suffix" value=".jsp"/>
+	</bean>
+
+<!-- fix get request chinese character before mvc:annotation-driven -->
+<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" >      
+        <property name="messageConverters">      
+        <list>    
+          <bean class="org.springframework.http.converter.StringHttpMessageConverter">    
+                <property name="supportedMediaTypes">    
+                    <list>    
+                        <value>text/plain;charset=UTF-8</value>    
+                    </list>    
+                </property>    
+            </bean>    
+        </list>     
+    </property>      
+   </bean>  
+    <mvc:annotation-driven />
+   
+   <bean id="multipartResolver"  
+    class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >  
+    <property name="defaultEncoding" value="utf-8"/> <!-- 默认编码 (ISO-8859-1)   -->
+    <property name="maxInMemorySize" value="10240"/> <!-- 最大内存大小 (10240)  --> 
+    <property name="uploadTempDir" value="/upload/"/> <!-- 上传后的目录名 (WebUtils#TEMP_DIR_CONTEXT_ATTRIBUTE)   -->
+    <property name="maxUploadSize" value="-1"/> <!-- 最大文件大小，-1为无限止(-1)   -->
+</bean>
+   
+   <!-- <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="packagesToScan">
+            <list>
+                <value>com.tim.spring0200</value>
+            </list>
+        </property>
+        <property name="schema" value="classpath:org/springframework/oxm/student.xsd"/>
+    </bean> -->
+  
+</beans>

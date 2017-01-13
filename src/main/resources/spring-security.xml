@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns:b="http://www.springframework.org/schema/beans"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://www.springframework.org/schema/security"
+		 xmlns:p="http://www.springframework.org/schema/p"
+		 xmlns:util="http://www.springframework.org/schema/util"
+		 xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<http pattern="/index.jsp" security="none"/>
+	<http pattern="/session_timeout.jsp" security="none"/>
+	
+	<http auto-config="true" >
+		<intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
+		<form-login />
+		
+		<!-- 定义 登出 的 url ，登出后，设置session为无效， 设置登出成功之后跳转的页面 。  登出之后 清除 cookie中的session -->
+		<logout logout-url="/logout" invalidate-session="true" logout-success-url="/index.jsp" delete-cookies="JSESSIONID" />
+		
+		<!-- web.xml 中配置的session 过期之后，会自动跳转到这个页面，这个页面必须不在security的管理下，否则会跳到登录页面 -->
+		<session-management invalid-session-url="/session_timeout.jsp" >
+		
+			<!-- max-sessions 表示这个系统中，用同一个用户，可以在几个浏览器里登录。如果只配置这个属性，那么，如果已经登录的用户，在其他环境登录时，原来登录的环境会被提示session过期 -->
+			<!--  error-if-maximum-exceeded="true"  如果有max-sessions个用户已经登录，那么下一次登录的用户 会 提示不允许再次登录的提示   -->
+			<!-- <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/> -->
+		</session-management>
+		
+		<!-- 两种save remember me 的方式，一种是用cookie 一种是通过持久化。 用cookie,只要配置一下 key, 自定义的一个key . cookie会在浏览器中生成一个 remember-me的value value是通过Base64加密的，其中就会有 key值 -->
+		<remember-me key="helloSecurity01"/>
+	</http>
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="user" password="1" authorities="ROLE_USER" />
+				<user name="admin" password="1" authorities="ROLE_USER,ROLE_ADMIN"/>
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+</b:beans>
