@@ -52,4 +52,9 @@
     <bean id="photoService" class="com.tim.spring0200.service.impl.PhotoServiceImpl">
     	<property name="commonDAO" ref="commonDAO"></property>
     </bean>
+    
+    <bean id="studentService" class="com.tim.spring0200.service.impl.StudentServiceImpl">
+    	<property name="commonDAO" ref="commonDAO"></property>
+    </bean>
+    
 </beans>

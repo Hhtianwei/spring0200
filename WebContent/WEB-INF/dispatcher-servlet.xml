@@ -44,19 +44,10 @@
    
    <bean id="multipartResolver"  
     class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >  
-    <property name="defaultEncoding" value="utf-8"/> <!-- 默认编码 (ISO-8859-1)   -->
-    <property name="maxInMemorySize" value="10240"/> <!-- 最大内存大小 (10240)  --> 
-    <property name="uploadTempDir" value="/upload/"/> <!-- 上传后的目录名 (WebUtils#TEMP_DIR_CONTEXT_ATTRIBUTE)   -->
-    <property name="maxUploadSize" value="-1"/> <!-- 最大文件大小，-1为无限止(-1)   -->
+    <property name="defaultEncoding" value="utf-8"/><!--  默认编码 (ISO-8859-1)   -->
+    <property name="maxInMemorySize" value="10240"/><!--  最大内存大小 (1024000)   -->
+    <property name="uploadTempDir" value="/upload/"/> <!-- 上传后的目录名 (WebUtils#TEMP_DIR_CONTEXT_ATTRIBUTE) -->  
+    <property name="maxUploadSize" value="-1"/><!--  最大文件大小，-1为无限止(-1)   -->
 </bean>
    
-   <!-- <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        <property name="packagesToScan">
-            <list>
-                <value>com.tim.spring0200</value>
-            </list>
-        </property>
-        <property name="schema" value="classpath:org/springframework/oxm/student.xsd"/>
-    </bean> -->
-  
 </beans>
