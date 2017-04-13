@@ -31,6 +31,7 @@
 	<c:url var="images" value="/images" />
 			<c:forEach items="${list }" var="photo" varStatus="s">
 					<img id="mypic" alt="" src="${images }${photo.relativePath }" style="max-height:1000px;max-width:1000px;"/>
+					<br/>
 			</c:forEach>
 
 
